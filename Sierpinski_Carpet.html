@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sierpinski Carpet</title>
+
+<!-- Vertex Shader -->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+void main() {
+    gl_Position = vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+// JS에서 전달받을 색상 변수
+uniform vec4 uColor;
+
+void main() {
+    gl_FragColor = uColor;
+}
+</script>
+
+<!-- 공통 라이브러리 추가 -->
+<script type="text/javascript" src="webgl-utils.js"></script>
+<script type="text/javascript" src="initShaders.js"></script>
+<script type="text/javascript" src="MV.js"></script>
+
+<!-- Sierpinski Carpet JS 파일 -->
+<script type="text/javascript" src="Sierpinski_Carpet.js"></script>
+
+</head>
+
+<body>
+<h2>Sierpinski Carpet</h2>
+
+<!--분할 횟수 및 색상 제어 -->
+<div id="controls">
+    <label>
+        분할 횟수 : 
+        <input type="range" id="slider" min="0" max="7" step="1" value="5">
+        <span id="subdiv-val">5</span>
+    </label>
+    <label>
+        색상 선택 : 
+        <input type="color" id="colorPicker" value="#0055ff">
+    </label>
+</div>
+
+<canvas id="gl-canvas" width="512" height="512">
+    Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</body>
+</html>
