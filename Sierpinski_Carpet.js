@@ -5,7 +5,7 @@ var points = [];
 var NumTimesToSubdivide = 5;
 
 var bufferId;
-var uColorLoc;
+var uColorLoc; // 셰이더 내 유니폼 변수 'uColor'의 메모리 위치를 저장하는 변수
 
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
@@ -21,9 +21,11 @@ window.onload = function init() {
     var program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
 
+    // GPU 버퍼 메모리 할당 및 연결
     bufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
 
+    // 정점 셰이더의 속성 변수와 버퍼 바인딩 연결
     var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
@@ -103,6 +105,7 @@ function divideCarpet(a, b, c, d, count) {
     }
 }
 
+// 형상 데이터를 업데이트하고 GPU 버퍼에 새 데이터를 집어넣는 함수
 function updateGeometry() {
     points = [];
 
@@ -114,6 +117,7 @@ function updateGeometry() {
         vec2(1, -1)  // d (우하)
     ];
 
+    // 초기 영역 전체를 대상으로 카펫 재귀 분할 시작
     divideCarpet(vertices[0], vertices[1], vertices[2], vertices[3], NumTimesToSubdivide);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
@@ -122,6 +126,7 @@ function updateGeometry() {
     render();
 }
 
+// 최종 드로잉하는 렌더링 함수
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES, 0, points.length);
